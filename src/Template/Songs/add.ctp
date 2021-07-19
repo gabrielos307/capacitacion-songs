@@ -4,6 +4,7 @@
     echo $this->Form->input('titulo');
     echo $this->Form->input('album');
     echo $this->Form->input('categoria');
+    echo $this->Form->input('artists');
     echo $this->Form->button(__('Guardar cancion'));
     echo $this->Form->end();
 

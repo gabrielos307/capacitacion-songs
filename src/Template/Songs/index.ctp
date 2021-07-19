@@ -6,6 +6,7 @@
         <th>Titulo</th>
         <th>Album</th>
         <th>Categoria</th>
+        <th>Artista</th>
         <th>Acción</th>
     </tr>
 
@@ -17,6 +18,7 @@
             ['controller' => 'Songs', 'action' => 'view', $song->id]) ?></td>
         <td><?= $song->album ?></td>
         <td><?= $song->categoria ?></td>
+        <td><?= pr($artists->id)?></td>
 
         <td>
             <?= $this->Form->postLink('Eliminar', 

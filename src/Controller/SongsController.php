@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use Cake\Network\Exception\NotFoundException;
+use Cake\ORM\Behavior\TreeBehavior;
 
 class SongsController extends AppController
 {
@@ -9,10 +11,16 @@ class SongsController extends AppController
     {
         $songs = $this->Songs->find('all');
         $this->set(compact('songs'));
+
+        $artists = $this->Songs->Artists->find('list');
+        $this->set(compact('artists'));
     }
     public function view($id = null){
         $song = $this->Songs->get($id);
         $this->set(compact('song'));
+
+        $artists = $this->Songs->Artists->find('list');
+        $this->set(compact('artists'));
     }
     public function add(){
         $song = $this->Songs->newEntity();
@@ -26,6 +34,9 @@ class SongsController extends AppController
             $this->Flash->error(__('No se pudo agregar la cancion'));
         }
         $this->set('song', $song);
+
+        $artists = $this->Songs->Artists->find('list');
+        $this->set(compact('artists'));
     }
     public function edit($id = null){
         $song = $this->Songs->get($id);
@@ -38,6 +49,9 @@ class SongsController extends AppController
             $this->Flash->error(__('Tu cancion no se pudo actualizar'));
         }
         $this->set('song', $song);
+
+        $artists = $this->Songs->Artists->find('list');
+        $this->set(compact('artists'));
     }
     public function delete($id){
         $this->request->allowMethod(['post', 'delete']);

@@ -3,14 +3,24 @@
 
 namespace App\Model\Table;
 use Cake\Validation\Validator;
-
+use Cake\ORM\Behavior\TreeBehavior;
 use Cake\ORM\Table;
 
-class ArtitsTable extends Table
+class ArtistsTable extends Table
 {
     public function initialize(array $config)
     {
         $this->addBehavior('Timestamp');
-        // Just add the belongsTo relation with CategoriesTable
+        $this->addBehavior('Tree');
+        $this->hasMany('Songs', [
+            'foreignKey' => 'artista_id',
+        ]);
+    }
+    public function validationDefault(Validator $validator){
+        $validator
+            ->notEmpty('nombre')
+            ->notEmpty('nacimiento')
+            ->notEmpty('es_banda');
+        return $validator;
     }
 }
