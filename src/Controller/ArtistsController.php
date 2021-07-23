@@ -9,7 +9,9 @@ class ArtistsController extends AppController{
     }
     public function view($id = null){
         $artists = $this->Artists->get($id);
-        $this->set(compact('artist'));
+        $this->set('artists', $artists);
+        $query = $artists->find()->contain(['Songs']);
+        $this->set('songs', $songs);
     }
     public function add(){
         $artists  = $this->Artists->newEntity();

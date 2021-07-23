@@ -1,5 +1,14 @@
 <h1>Songs</h1>
 <p><?= $this->Html->link('Añadir canción', ['controller' => 'Songs', 'action' => 'add'])?></p>
+<pre>
+    <?php
+    foreach ($songs as $s):
+        print_r($s->Artists);
+        endforeach;
+        
+    ?>
+    
+</pre>
 <table>
     <tr>
         <th>Id</th>
@@ -18,7 +27,11 @@
             ['controller' => 'Songs', 'action' => 'view', $song->id]) ?></td>
         <td><?= $song->album ?></td>
         <td><?= $song->categoria ?></td>
-        <td><?= pr($artists->id)?></td>
+        <td><?php
+        foreach ($artists as $artist):
+        $artist->artista_nombre;
+        endforeach;
+        ?></td>
 
         <td>
             <?= $this->Form->postLink('Eliminar', 

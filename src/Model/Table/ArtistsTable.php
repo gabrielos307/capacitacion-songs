@@ -11,10 +11,9 @@ class ArtistsTable extends Table
     public function initialize(array $config)
     {
         $this->addBehavior('Timestamp');
-        $this->addBehavior('Tree');
-        $this->hasMany('Songs', [
-            'foreignKey' => 'artista_id',
-        ]);
+        //$this->addBehavior('Tree');
+        $this->hasMany('Songs')
+            ->setForeignKey('artista_id');
     }
     public function validationDefault(Validator $validator){
         $validator

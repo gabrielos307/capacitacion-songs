@@ -12,9 +12,9 @@ class SongsTable extends Table
     public function initialize(array $config)
     {
         $this->addBehavior('Timestamp');
-        $this->belongsTo('Artists', [
-            'foreignKey' => 'artista_id',
-        ]);
+        $this->belongsTo('Artists')
+            ->setForeignKey('id')
+            ->setJoinType('INNER');
     }
     public function validationDefault(Validator $validator){
         $validator

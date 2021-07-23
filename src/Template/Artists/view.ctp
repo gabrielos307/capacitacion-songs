@@ -1,7 +1,11 @@
-<h1><?= h($artist->nombre) ?></h1>
-<p><?= h($article->nacimiento) ?></p>
-<?php if ($artist->es_banda === true):?>
+<h1><?= h($artists->nombre) ?></h1>
+<p><?= h($artists->nacimiento) ?></p>
+<?php if ($artists->es_banda === true):?>
     <p>Es banda</p>
-<?php elseif($artist->es_banda === false):?>
+<?php elseif($artists->es_banda === false):?>
     <p>Es solista</p>
 <?php endif; ?>
+<pre>
+<?php
+print_r($artists['Songs']);?>
+</pre>

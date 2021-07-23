@@ -3,6 +3,8 @@
 namespace App\Controller;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Behavior\TreeBehavior;
+use Cake\ORM\Query;
+use Cake\ORM\TableRegistry;
 
 class SongsController extends AppController
 {
@@ -12,21 +14,38 @@ class SongsController extends AppController
         $songs = $this->Songs->find('all');
         $this->set(compact('songs'));
 
-        $artists = $this->Songs->Artists->find('list');
-        $this->set(compact('artists'));
+        $artists = $this->Songs->find()
+        ->select(['artista_nombre'=>'Artists.nombre', 'Songs.id'])
+        ->join([
+            'table' => 'Artists',
+            'type' => 'INNER',
+            'conditions' => ['Songs.artista_id = Artists.id' ],
+        ]);
+        $this->set('artists', $artists);
     }
     public function view($id = null){
-        $song = $this->Songs->get($id);
-        $this->set(compact('song'));
+        $songs= $this->Songs->get($id);
+        $this->set(compact('songs'));
 
-        $artists = $this->Songs->Artists->find('list');
-        $this->set(compact('artists'));
+        $artists = $this->Songs->find()
+        ->select(['artista_nombre'=>'Artists.nombre', 'Songs.id'])
+        ->join([
+            'table' => 'Artists',
+            'type' => 'INNER',
+            'conditions' => ['Songs.artista_id = Artists.id','Songs.id' => $id ],
+        ]);
+        //->where(['id' => $id]);
+        $query = $this->Songs->find()->select(['titulo'])->where(['id' => $id]);
+        
+        $this->set('artists', $artists);
+        $this->set(compact('query'));
     }
     public function add(){
         $song = $this->Songs->newEntity();
         if($this->request->is('post')){
             $song = $this->Songs->patchEntity($song, $this->request->getData());
-            pr($this->request->getData());
+            $this->request->getData();
+            print_r($this->request->getData());
             if($this->Songs->save($song)){
                 $this->Flash->success(__('Se ha guardado la cancion'));
                 return $this->redirect(['action' => 'index']);
@@ -35,8 +54,8 @@ class SongsController extends AppController
         }
         $this->set('song', $song);
 
-        $artists = $this->Songs->Artists->find('list');
-        $this->set(compact('artists'));
+        //$artists = $this->Songs->Artists->find('list', array('fields', array('nombre')));
+        $this->set('artists', $this->Songs->Artists->find()->select(['id','nombre']));
     }
     public function edit($id = null){
         $song = $this->Songs->get($id);
